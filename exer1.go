@@ -17,5 +17,11 @@ func main() {
 	mux.HandleFunc("/headers", headersHandler)
 	mux.HandleFunc("/form", FormHandler)
 	mux.HandleFunc("/status", StatusCodeHandler)
+	mux.HandleFunc("/render", RenderHandler)
+	apiMux := http.NewServeMux()
+	apiMux.HandleFunc("/v1/ping", pingHandler)
+	apiMux.HandleFunc("/v1/greet", greetHandler)
+
+	mux.Handle("/api/", http.StripPrefix("/api", apiMux))
 	http.ListenAndServe(":8080", mux)
 }
